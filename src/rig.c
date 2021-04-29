@@ -454,7 +454,11 @@ RIG *HAMLIB_API rig_init(rig_model_t rig_model)
 
     case RIG_PORT_NETWORK:
     case RIG_PORT_UDP_NETWORK:
-        strncpy(rs->rigport.pathname, "127.0.0.1:4532", HAMLIB_FILPATHLEN - 1);
+/* N5BRG */
+        if(strlen(caps->ip_address_port) < 3)   /* <3 assumes no address provided */
+            strncpy(rs->rigport.pathname, "127.0.0.1:4532", HAMLIB_FILPATHLEN - 1);
+        else
+            strncpy(rs->rigport.pathname, caps->ip_address_port, HAMLIB_FILPATHLEN - 1);
         break;
 
     default:
@@ -6212,7 +6216,6 @@ int HAMLIB_API rig_get_rig_info(RIG *rig, char *response, int max_response_len)
     vfo_t vfoA,vfoB;
     freq_t freqA,freqB;
     rmode_t modeA,modeB;
-    char *modeAstr, *modeBstr;
     pbwidth_t widthA,widthB;
     split_t split;
     int satmode;
@@ -6224,28 +6227,13 @@ int HAMLIB_API rig_get_rig_info(RIG *rig, char *response, int max_response_len)
     vfoB = vfo_fixup(rig, RIG_VFO_B);
     ret = rig_get_vfo_info(rig, vfoA, &freqA, &modeA, &widthA, &split, &satmode); 
     if (ret != RIG_OK) RETURNFUNC(ret);
-    // we need both vfo and mode targtable to avoid vfo swapping
-    if ((rig->caps->targetable_vfo & RIG_TARGETABLE_FREQ) && (rig->caps->targetable_vfo & RIG_TARGETABLE_MODE))
-    {
-        ret = rig_get_vfo_info(rig, vfoB, &freqB, &modeB, &widthB, &split, &satmode); 
-        if (ret != RIG_OK) RETURNFUNC(ret);
-    }
-    else
-    {
-        // we'll use cached info instead of doing the vfo swapping
-        int cache_ms_freq, cache_ms_mode, cache_ms_width;
-        rig_get_cache(rig, vfoB, &freqB, &cache_ms_freq, &modeB, &cache_ms_mode, &widthB,
-                      &cache_ms_width);
-    }
-    modeAstr = (char*)rig_strrmode(modeA);
-    modeBstr = (char*)rig_strrmode(modeB);
-    if (modeAstr[0]==0) modeAstr="None";
-    if (modeBstr[0]==0) modeBstr="None";
+    ret = rig_get_vfo_info(rig, vfoB, &freqB, &modeB, &widthB, &split, &satmode); 
+    if (ret != RIG_OK) RETURNFUNC(ret);
     rxa = 1;
     txa = split == 0;
     rxb = !rxa;
     txb = split == 1;
-    snprintf(response,max_response_len,"VFO=%s Freq=%.0f Mode=%s Width=%d RX=%d TX=%d\nVFO=%s Freq=%.0f Mode=%s Width=%d RX=%d TX=%d\nSplit=%d SatMode=%d", rig_strvfo(vfoA), freqA, modeAstr, (int)widthA, rxa, txa, rig_strvfo(vfoB), freqB, modeBstr, (int)widthB, rxb, txb, split, satmode);
+    snprintf(response,max_response_len,"VFO=%s Freq=%.0f Mode=%s Width=%d RX=%d TX=%d\nVFO=%s Freq=%.0f Mode=%s Width=%d RX=%d TX=%d\nSplit=%d SatMode=%d", rig_strvfo(vfoA), freqA, rig_strrmode(modeA), (int)widthA, rxa, txa, rig_strvfo(vfoB), freqB, rig_strrmode(modeB), (int)widthB, rxb, txb, split, satmode);
     RETURNFUNC(RIG_OK);
 }
 

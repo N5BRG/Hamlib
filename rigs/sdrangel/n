@@ -1,0 +1,12 @@
+# This is a script file to rebuild the SDRangel programs. To work prople it mus be in
+# the folder \Hamlib\rig\sdrangel
+# you will be prompted for the sudo password for your computer
+
+cd ..
+cd ..
+make
+sudo make install
+sudo ldconfig
+cd rigs
+cd sdrangel
+

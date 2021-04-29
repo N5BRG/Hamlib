@@ -1612,6 +1612,9 @@ struct rig_caps {
     dcd_type_t dcd_type;        /*!< Type of the DCD port. */
     rig_port_t port_type;       /*!< Type of communication port. */
 
+//N5BRG
+    const char *ip_address_port; /*!< IP address and port */
+
     int serial_rate_min;        /*!< Minimum serial speed. */
     int serial_rate_max;        /*!< Maximum serial speed. */
     int serial_data_bits;       /*!< Number of data bits. */
@@ -2213,6 +2216,10 @@ struct rig_state {
 
     gran_t level_gran[RIG_SETTING_MAX]; /*!< level granularity */
     gran_t parm_gran[RIG_SETTING_MAX];  /*!< parm granularity */
+
+//N5BRG
+    int relay_info;             /*!< Relay info about available external for PTT and antenna control.  */
+    int audioInput;             /*!< The type of Audio input for use in Tx mode.  3==Mic, 4==Key, 1==Tone */
 
 
     /*
@@ -3023,7 +3030,7 @@ extern HAMLIB_EXPORT(int) rig_set_cache_timeout_ms(RIG *rig, hamlib_cache_t sele
 
 extern HAMLIB_EXPORT(int) rig_set_vfo_opt(RIG *rig, int status);
 extern HAMLIB_EXPORT(int) rig_get_vfo_info(RIG *rig, vfo_t vfo, freq_t *freq, rmode_t *mode, pbwidth_t *width, split_t *split, int *satmode);
-extern HAMLIB_EXPORT(int) rig_get_rig_info(RIG *rig, char *response, int max_response_len);
+extern int HAMLIB_API rig_get_rig_info(RIG *rig, char *response, int max_response_len);
 extern HAMLIB_EXPORT(int) rig_get_cache(RIG *rig, vfo_t vfo, freq_t *freq, int * cache_ms_freq, rmode_t *mode, int *cache_ms_mode, pbwidth_t *width, int *cache_ms_width);
 
 

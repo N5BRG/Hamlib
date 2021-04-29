@@ -1,0 +1,21 @@
+# Configuration file for Hamlib and SDRAngel SDR operation
+# Last Changed: March 23, 2021
+relay_info	2	// NO Relay=0  PTT Relay=1-4 relay number  SainSmart Relay present for PTT
+audioinput	3	// Mic=3 Key=4 Tone=1   Value used when PTT is aserted
+
+# Values below this line are for future development. They will not effect current operation.
+#rx_position	0	// Position of the Receiver(Source)/demodulator in SDRAngel
+# Modes  AM = 0, CW = 1, USB = 2, LSB = 3, NFM = 5, WFM = 6 
+#rx_mode = 2;
+# Frequency in hertz
+#rx_freq = 14274000;
+# Radio type for RX is 0 = HackRF One, 1 = Pluto
+#rx_radio = 1;
+#tx_position	1	// Position of the Transmitter(Sink)/modulator in SDRAngel
+# Modes  AM = 0, CW = 1, USB = 2, LSB = 3, NFM = 5, WFM = 6 
+#tx_mode = 2;
+# Frequency in hertz
+#tx_freq = 14274000;
+# Radio type for TX is 2 = HackRF One, 1 = Pluto, 3 = RTLSDR, 4 = LIME
+#tx_radio = 1;
+
