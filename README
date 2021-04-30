@@ -1,3 +1,22 @@
+
+
+Regarding this forked version of Hamlib Repository....
+
+This version was created to allow adding software to support the SDRangel SDR software package.
+The code needed to interface with SDRangel is included here and SDRangel will show up in the rigctl --list as group 34.  
+
+To work with a Pluto using SDRangel you would slect reg number 34001.
+
+Follow the instructions below to build the project. Then start the application:
+
+rigctl -m34001        For Manual operation
+rigctld -m34001       For background operational support for other programs like CQRLOG
+
+See the file /Hamlib/rigs/sdrangel/README_SDRANGEL.txt for more information.
+
+
+The follow Introduction comes from the original top level Hamlib github.....
+
 Hamlib - (C) Frank Singleton 2000 (vk3fcs@ix.netcom.com)
          (C) Stephane Fillod 2000-2011
          (C) The Hamlib Group 2000-2012
